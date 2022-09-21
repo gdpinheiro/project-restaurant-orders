@@ -1,5 +1,6 @@
 import csv
 from collections import Counter
+from importlib.resources import path
 
 
 def most_ordered_by_maria(orders):
@@ -56,22 +57,27 @@ def write_to_file(result):
 
 
 def analyze_log(path_to_file):
-    orders = []
+    try:
+        if path_to_file.endswith(".csv"):
+            orders = []
 
-    with open(path_to_file, encoding="utf-8") as file:
-        orders_reader = csv.reader(file, delimiter=",", quotechar='"')
-        for row in orders_reader:
-            orders.append(row)
+            with open(path_to_file, encoding="utf-8") as file:
+                orders_reader = csv.reader(file, delimiter=",", quotechar='"')
+                for row in orders_reader:
+                    orders.append(row)
 
-    result = []
-    result.append(most_ordered_by_maria(orders))
-    result.append(arnaldo_ordered_hamburger(orders))
-    result.append(joao_never_ordered(orders))
-    result.append(joao_never_weekday(orders))
+            result = []
+            result.append(most_ordered_by_maria(orders))
+            result.append(arnaldo_ordered_hamburger(orders))
+            result.append(joao_never_ordered(orders))
+            result.append(joao_never_weekday(orders))
 
-    write_to_file(result)
+            write_to_file(result)
 
-    return print(result)
+            return print(result)
+        return print(f"Extensão inválida: '{path_to_file}'")
+    except FileNotFoundError:
+        print(f"Arquivo inexistente: '{path_to_file}'")
 
 
-analyze_log("./data/orders_1.csv")
+analyze_log("./data/orders_3.txt")
