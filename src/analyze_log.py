@@ -81,8 +81,8 @@ def analyze_log(path_to_file):
         write_to_file(result)
 
         return print(result)
-    except FileNotFoundError:
-        print(f"Arquivo inexistente: '{path_to_file}'")
+    except Exception:
+        raise FileNotFoundError(f"Arquivo inexistente: '{path_to_file}'")
 
 
 analyze_log("./data/orders_3.csv")
