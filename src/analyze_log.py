@@ -74,9 +74,9 @@ def analyze_log(path_to_file):
             write_to_file(result)
 
             return print(result)
-        return print(f"Extensão inválida: '{path_to_file}'")
-    except FileNotFoundError:
-        print(f"Arquivo inexistente: '{path_to_file}'")
+        raise FileNotFoundError(f"Extensão inválida: '{path_to_file}'")
+    except Exception:
+        raise FileNotFoundError(f"Arquivo inexistente: '{path_to_file}'")
 
 
 analyze_log("./data/orders_3.txt")
