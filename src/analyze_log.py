@@ -55,28 +55,34 @@ def write_to_file(result):
             file.write("\n")
 
 
+def check_path(path):
+    if path.endswith("csv"):
+        return
+    else:
+        raise FileNotFoundError(f"Extensão inválida: '{path}'")
+
+
 def analyze_log(path_to_file):
+    check_path(path_to_file)
     try:
-        if path_to_file.endswith(".csv"):
-            orders = []
+        orders = []
 
-            with open(path_to_file, encoding="utf-8") as file:
-                orders_reader = csv.reader(file, delimiter=",", quotechar='"')
-                for row in orders_reader:
-                    orders.append(row)
+        with open(path_to_file, encoding="utf-8") as file:
+            orders_reader = csv.reader(file, delimiter=",", quotechar='"')
+            for row in orders_reader:
+                orders.append(row)
 
-            result = []
-            result.append(most_ordered_by_maria(orders))
-            result.append(arnaldo_ordered_hamburger(orders))
-            result.append(joao_never_ordered(orders))
-            result.append(joao_never_weekday(orders))
+        result = []
+        result.append(most_ordered_by_maria(orders))
+        result.append(arnaldo_ordered_hamburger(orders))
+        result.append(joao_never_ordered(orders))
+        result.append(joao_never_weekday(orders))
 
-            write_to_file(result)
+        write_to_file(result)
 
-            return print(result)
-        raise FileNotFoundError(f"Extensão inválida: '{path_to_file}'")
-    except Exception:
-        raise FileNotFoundError(f"Arquivo inexistente: '{path_to_file}'")
+        return print(result)
+    except FileNotFoundError:
+        print(f"Arquivo inexistente: '{path_to_file}'")
 
 
-analyze_log("./data/orders_3.txt")
+analyze_log("./data/orders_3.csv")
